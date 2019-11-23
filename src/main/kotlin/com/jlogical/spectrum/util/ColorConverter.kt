@@ -88,7 +88,7 @@ fun highestChromaInHue(hue: Hue): MunsellColor {
     // Go through each color in the hue and find the one with the highest chroma.
     for (value in layerOne.keys) {
         for (chroma in layerOne[value]!!.keys) {
-            if (highest == null || chroma > highest.chroma) {
+            if (highest == null || chroma >= highest.chroma) {
                 highest = MunsellColor(hue, value.toDouble(), chroma.toDouble())
             }
         }

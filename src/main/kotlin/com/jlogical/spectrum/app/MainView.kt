@@ -2,6 +2,7 @@ package com.jlogical.spectrum.app
 
 import com.jlogical.spectrum.gui.ArrangedTab
 import com.jlogical.spectrum.gui.DetailsTab
+import com.jlogical.spectrum.gui.ImageTab
 import javafx.scene.control.TabPane
 import tornadofx.*
 
@@ -20,7 +21,7 @@ class MainView : View("SpectrumFX") {
             this += DetailsTab()
         }
         tab("Image"){
-
+            this += ImageTab()
         }
         tab("Palette"){
 
