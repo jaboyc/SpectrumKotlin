@@ -1,5 +1,6 @@
 package com.jlogical.spectrum.gui
 
+import com.jlogical.spectrum.model.Mixer
 import com.jlogical.spectrum.model.MunsellColor
 import com.jlogical.spectrum.model.Palette
 import javafx.beans.binding.Bindings
@@ -55,7 +56,24 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
                 }
             }
 
-            item("Add to Mixer")
+            item("Add to Mixer"){
+                visibleWhen {
+                    Bindings.createBooleanBinding({ !Mixer.colors.contains(color) }, arrayOf(Mixer.colors))
+                }
+                setOnAction {
+                    Mixer.addColor(color)
+                }
+            }
+
+            item("Remove from Mixer"){
+                visibleWhen {
+                    Bindings.createBooleanBinding({ Mixer.colors.contains(color) }, arrayOf(Mixer.colors))
+                }
+                setOnAction {
+                    Mixer.removeColor(color)
+                }
+            }
+
             item("Set as Desired Color")
         }
     }

@@ -47,22 +47,60 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
 
             return rgb(rgb)
         }
+
+        /**
+         * Returns the mixing of all the colors along with their associated weights.
+         */
+        fun mix(colors: List<MunsellColor>, weights: List<Double>): MunsellColor? {
+            // Make sure the lists are valid.
+            if(colors.isEmpty() || colors.size != weights.size) return null
+
+            // Return the mixing of all the colors converted to their RGBs.
+            return fromRGB(mixRGB(colors.map { it.color }, weights) ?: return null)
+        }
+
+        /**
+         * Returns the mixing of all the RGB colors along with their associated weights.
+         */
+        fun mixRGB(colors: List<Color>, weights: List<Double>): Color? {
+
+            // Make sure the lists are valid.
+            if(colors.isEmpty() || colors.size != weights.size) return null
+
+            var red = 0.0
+            var green = 0.0
+            var blue = 0.0
+            var weight = 0.0
+
+            colors.forEachIndexed { i, color ->
+                red += color.red * weights[i]
+                green += color.green * weights[i]
+                blue += color.blue * weights[i]
+                weight += weights[i]
+            }
+
+            red /= weight
+            green /= weight
+            blue /= weight
+
+            return Color(red, green, blue, 1.0)
+        }
     }
 
     /**
      * Extension method of JavaFX.Color which returns the difference between the colors based on their RGB values. Always a positive number.
      */
-    private fun Color.diff(color: Color) : Double = abs(red - color.red) + abs(green - color.green) + abs(blue - color.blue)
+    private fun Color.diff(color: Color): Double = abs(red - color.red) + abs(green - color.green) + abs(blue - color.blue)
 
     /**
      * Returns the distance from this munsell color to the one given.
      */
-    fun distance(color: MunsellColor) : Double = this.color.diff(color.color)
+    fun distance(color: MunsellColor): Double = this.color.diff(color.color)
 
     /**
      * Returns the complementary color of this color, which is the color on the other side of the Munsell Spectrum.
      */
-    fun complementaryColor() : MunsellColor{
+    fun complementaryColor(): MunsellColor {
         val newHue = Hue((hue.value + 50) % 100)
         return MunsellColor(newHue, value, chroma)
     }
@@ -70,8 +108,8 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
     /**
      * Returns a list of analogous colors.
      */
-    fun analogousColors() : List<MunsellColor>{
-        return (1 until 10).map{
+    fun analogousColors(): List<MunsellColor> {
+        return (1 until 10).map {
             MunsellColor(Hue(hue.prefix, (hue.hueValue + it) % 10), value, chroma)
         }
     }
