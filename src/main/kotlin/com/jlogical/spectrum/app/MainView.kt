@@ -9,30 +9,30 @@ import tornadofx.*
 
 class MainView : View("SpectrumFX") {
 
-    override val root = tabpane{
+    override val root = tabpane {
         tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
 
         prefWidth = 1100.0
         prefHeight = 640.0
 
-        tab("Arranged"){
+        tab("Arranged") {
             this += ArrangedTab()
         }
-        tab("Details"){
+        tab("Details") {
             this += DetailsTab()
         }
-        tab("Image"){
+        tab("Image") {
             this += ImageTab()
         }
-        tab("Palette"){
+        tab("Palette") {
             this += PaletteTab()
         }
-        tab("3D"){
+        tab("3D") {
 
         }
     }
 
-    init{
+    init {
         tabPane = root
     }
 
@@ -43,7 +43,7 @@ class MainView : View("SpectrumFX") {
         /**
          * Switches the tab index to the one specified.
          */
-        fun switchTab(index: Int){
+        fun switchTab(index: Int) {
             tabPane?.selectionModel?.select(index)
         }
     }

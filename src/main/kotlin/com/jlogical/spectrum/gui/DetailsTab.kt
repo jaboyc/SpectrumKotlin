@@ -74,13 +74,13 @@ class DetailsTab : BorderPane() {
     /**
      * Returns a placeholder box for when no color is selected.
      */
-    private fun placeHolder() : Pane {
+    private fun placeHolder(): Pane {
         return vbox {
             maxWidth = 110.0
             minWidth = 110.0
             maxHeight = 60.0
             minHeight = 60.0
-            style{
+            style {
                 borderColor += box(Color.BLACK)
                 borderStyle += BorderStrokeStyle.DASHED
                 borderWidth += box(1.px)

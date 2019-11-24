@@ -33,7 +33,7 @@ fun fromMunsell(munsellColor: MunsellColor): Color {
 
     // Get the first layer.
     val layerOne = munsellToRGB.getOrElse(munsellColor.hue) {
-        munsellToRGB[munsellToRGB.keys.filter{munsellColor.hue.prefix == it.prefix}.minBy { abs(munsellColor.hue.value - it.value) }]
+        munsellToRGB[munsellToRGB.keys.filter { munsellColor.hue.prefix == it.prefix }.minBy { abs(munsellColor.hue.value - it.value) }]
                 ?: throw IllegalArgumentException("Could not find layer one for $munsellColor")
     }
 
@@ -100,7 +100,7 @@ fun highestChromaInHue(hue: Hue): MunsellColor {
 /**
  * Returns the 2D slice of the given hue
  */
-fun getColorMatrix(hue: Hue) : List<List<MunsellColor>>{
+fun getColorMatrix(hue: Hue): List<List<MunsellColor>> {
 
     // Get the first layer.
     val layerOne = munsellToRGB[hue] ?: throw IllegalArgumentException("Invalid hue")
@@ -109,7 +109,7 @@ fun getColorMatrix(hue: Hue) : List<List<MunsellColor>>{
     var count = 1.0
 
     // Return each color in the hue.
-    return layerOne.keys.map {value ->
+    return layerOne.keys.map { value ->
         listOf(MunsellColor.N(count++), *layerOne[value]!!.keys.map { chroma -> MunsellColor(hue, value.toDouble(), chroma.toDouble()) }.toTypedArray())
     }
 }

@@ -12,11 +12,7 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
-import javafx.stage.Popup
 import tornadofx.*
-import java.lang.NullPointerException
-import tornadofx.getValue
-import tornadofx.setValue
 
 /**
  * Manipulates an image with MunsellColors.
@@ -27,7 +23,7 @@ class ImageTab : BorderPane() {
      * Stores the image used for posterizing and analyzing.
      */
     private val imageProperty = SimpleObjectProperty<Image>()
-    private var image : Image? by imageProperty
+    private var image: Image? by imageProperty
 
     /**
      * Holds the buttons that shift between visible and invisible depending on the image.
@@ -91,7 +87,7 @@ class ImageTab : BorderPane() {
     /**
      * Opens an image and displays it.
      */
-    private fun openImage(){
+    private fun openImage() {
         val file = chooseFile("Open Image", arrayOf(FileChooser.ExtensionFilter("Images (*.png, *.jpg)", "*.png", "*.jpg")), FileChooserMode.Single, null)
         if (file.isNotEmpty()) {
             image = Image(file[0].toURI().toString(), 450.0, 400.0, true, true)
@@ -112,7 +108,7 @@ class ImageTab : BorderPane() {
     /**
      * Displays a MunsellBlock on the bottom of the page with the clicked pixel.
      */
-    private fun showMunsellBlock(me : MouseEvent){
+    private fun showMunsellBlock(me: MouseEvent) {
         bottom = HBox().apply {
             alignment = Pos.CENTER
             paddingAll = 4.0

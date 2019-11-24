@@ -38,8 +38,8 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
             }
 
             item("Add to Palette") {
-                visibleWhen{
-                    Bindings.createBooleanBinding({!Palette.colors.contains(color)}, arrayOf(Palette.colors))
+                visibleWhen {
+                    Bindings.createBooleanBinding({ !Palette.colors.contains(color) }, arrayOf(Palette.colors))
                 }
                 setOnAction {
                     Palette.addColor(color)
@@ -47,8 +47,8 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
             }
 
             item("Remove from Palette") {
-                visibleWhen{
-                    Bindings.createBooleanBinding({Palette.colors.contains(color)}, arrayOf(Palette.colors))
+                visibleWhen {
+                    Bindings.createBooleanBinding({ Palette.colors.contains(color) }, arrayOf(Palette.colors))
                 }
                 setOnAction {
                     Palette.removeColor(color)

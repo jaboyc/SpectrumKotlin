@@ -28,13 +28,13 @@ data class Hue(val value: Double) {
      * The prefix of the hue.
      */
     val prefix: String
-        get() = if(isGrayscale) "N" else if (value == 100.0) "RP" else huePrefixes[value.toInt() / 10]
+        get() = if (isGrayscale) "N" else if (value == 100.0) "RP" else huePrefixes[value.toInt() / 10]
 
     /**
      * The hue value (from 0-10) of the hue.
      */
     val hueValue: Double
-        get () = if(isGrayscale) 0.0 else if (value == 100.0) 10.0 else value % 10
+        get () = if (isGrayscale) 0.0 else if (value == 100.0) 10.0 else value % 10
 
     /**
      * Whether the hue is grayscale or not.
@@ -78,7 +78,7 @@ data class Hue(val value: Double) {
      * String version of the hue.
      */
     override fun toString(): String {
-        if(hueValue % 1.0 == 0.0) return "${hueValue.toInt()}$prefix"
+        if (hueValue % 1.0 == 0.0) return "${hueValue.toInt()}$prefix"
         return "%.2f".format(hueValue) + prefix
     }
 }

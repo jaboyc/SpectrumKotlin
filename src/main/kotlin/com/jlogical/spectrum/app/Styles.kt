@@ -1,10 +1,7 @@
 package com.jlogical.spectrum.app
 
 import javafx.scene.text.FontWeight
-import tornadofx.Stylesheet
-import tornadofx.box
-import tornadofx.cssclass
-import tornadofx.px
+import tornadofx.*
 
 /**
  * Holds style information for the components.

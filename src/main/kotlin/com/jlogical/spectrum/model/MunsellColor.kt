@@ -52,12 +52,12 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
     /**
      * Extension method of JavaFX.Color which returns the difference between the colors based on their RGB values. Always a positive number.
      */
-    private fun Color.diff(color: Color) : Double = abs(red - color.red) + abs(green - color.green) + abs(blue - color.blue)
+    private fun Color.diff(color: Color): Double = abs(red - color.red) + abs(green - color.green) + abs(blue - color.blue)
 
     /**
      * Returns the distance from this munsell color to the one given.
      */
-    fun distance(color: MunsellColor) : Double = this.color.diff(color.color)
+    fun distance(color: MunsellColor): Double = this.color.diff(color.color)
 
     override fun toString(): String {
         if (hue.isGrayscale)

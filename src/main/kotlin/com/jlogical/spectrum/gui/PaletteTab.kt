@@ -9,16 +9,16 @@ import tornadofx.*
  */
 class PaletteTab : BorderPane() {
 
-    init{
+    init {
         top = PaletteBar()
 
-        center = tabpane{
+        center = tabpane {
             tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
 
-            tab("Mixing"){
+            tab("Mixing") {
 
             }
-            tab("Desired Color"){
+            tab("Desired Color") {
 
             }
         }
