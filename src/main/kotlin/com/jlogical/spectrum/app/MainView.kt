@@ -1,9 +1,6 @@
 package com.jlogical.spectrum.app
 
-import com.jlogical.spectrum.gui.ArrangedTab
-import com.jlogical.spectrum.gui.DetailsTab
-import com.jlogical.spectrum.gui.ImageTab
-import com.jlogical.spectrum.gui.PaletteTab
+import com.jlogical.spectrum.gui.*
 import javafx.scene.control.TabPane
 import tornadofx.*
 
@@ -28,7 +25,7 @@ class MainView : View("SpectrumFX") {
             this += PaletteTab()
         }
         tab("3D") {
-
+            this += ThreeDTab()
         }
     }
 
