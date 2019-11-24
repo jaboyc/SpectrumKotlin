@@ -53,7 +53,7 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
          */
         fun mix(colors: List<MunsellColor>, weights: List<Double>): MunsellColor? {
             // Make sure the lists are valid.
-            if(colors.isEmpty() || colors.size != weights.size) return null
+            if (colors.isEmpty() || colors.size != weights.size) return null
 
             // Return the mixing of all the colors converted to their RGBs.
             return fromRGB(mixRGB(colors.map { it.color }, weights) ?: return null)
@@ -61,11 +61,12 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
 
         /**
          * Returns the mixing of all the RGB colors along with their associated weights.
+         * Returns null if the weights were all 0 or the lists aren't initialized correctly.
          */
         fun mixRGB(colors: List<Color>, weights: List<Double>): Color? {
 
             // Make sure the lists are valid.
-            if(colors.isEmpty() || colors.size != weights.size) return null
+            if (colors.isEmpty() || colors.size != weights.size) return null
 
             var red = 0.0
             var green = 0.0
@@ -79,6 +80,9 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
                 weight += weights[i]
             }
 
+            // If all the weights were 0, return null.
+            if (weight == 0.0) return null
+
             red /= weight
             green /= weight
             blue /= weight
@@ -86,11 +90,6 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
             return Color(red, green, blue, 1.0)
         }
     }
-
-    /**
-     * Extension method of JavaFX.Color which returns the difference between the colors based on their RGB values. Always a positive number.
-     */
-    private fun Color.diff(color: Color): Double = abs(red - color.red) + abs(green - color.green) + abs(blue - color.blue)
 
     /**
      * Returns the distance from this munsell color to the one given.
@@ -121,3 +120,8 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
         return hue.toString() + ", " + value.roundToInt() + ", " + chroma.roundToInt()
     }
 }
+
+/**
+ * Extension method of JavaFX.Color which returns the difference between the colors based on their RGB values. Always a positive number.
+ */
+fun Color.diff(color: Color): Double = abs(red - color.red) + abs(green - color.green) + abs(blue - color.blue)

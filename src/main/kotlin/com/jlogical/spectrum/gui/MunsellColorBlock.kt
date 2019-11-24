@@ -33,7 +33,7 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
 
         contextmenu {
             item("View Details") {
-                setOnAction {
+                action {
                     DetailsTab.showColorDetails(color)
                 }
             }
@@ -42,7 +42,7 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
                 visibleWhen {
                     Bindings.createBooleanBinding({ !Palette.colors.contains(color) }, arrayOf(Palette.colors))
                 }
-                setOnAction {
+                action {
                     Palette.addColor(color)
                 }
             }
@@ -51,7 +51,7 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
                 visibleWhen {
                     Bindings.createBooleanBinding({ Palette.colors.contains(color) }, arrayOf(Palette.colors))
                 }
-                setOnAction {
+                action {
                     Palette.removeColor(color)
                 }
             }
@@ -60,7 +60,7 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
                 visibleWhen {
                     Bindings.createBooleanBinding({ !Mixer.colors.contains(color) }, arrayOf(Mixer.colors))
                 }
-                setOnAction {
+                action {
                     Mixer.addColor(color)
                 }
             }
@@ -69,12 +69,16 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
                 visibleWhen {
                     Bindings.createBooleanBinding({ Mixer.colors.contains(color) }, arrayOf(Mixer.colors))
                 }
-                setOnAction {
+                action {
                     Mixer.removeColor(color)
                 }
             }
 
-            item("Set as Desired Color")
+            item("Set as Desired Color"){
+                action {
+                    Mixer.desiredColor.value = color
+                }
+            }
         }
     }
 
