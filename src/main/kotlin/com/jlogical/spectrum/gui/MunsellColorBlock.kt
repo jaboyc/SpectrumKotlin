@@ -11,7 +11,7 @@ import tornadofx.*
 /**
  * A block that displays a munsell color.
  */
-class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: Double = 60.0, rounded: Double = 0.0, var text: String? = null) : BorderPane() {
+class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: Double = 60.0, rounded: Double = 4.0, var text: String? = null) : BorderPane() {
     init {
 
         // If text is null, set it to the color's string.
