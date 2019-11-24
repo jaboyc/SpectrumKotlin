@@ -20,8 +20,8 @@ class PaletteBar : VBox(5.0) {
         hbox (5.0){
             alignment = Pos.CENTER
 
-            minWidth = 355.0
-            maxWidth = 355.0
+            minWidth = 365.0
+            maxWidth = 365.0
             minHeight = 48.0
             maxHeight = 48.0
 

@@ -2,6 +2,7 @@ package com.jlogical.spectrum.model
 
 import com.jlogical.spectrum.util.fromMunsell
 import javafx.scene.paint.Color
+import kotlin.math.abs
 import kotlin.math.roundToInt
 import com.jlogical.spectrum.util.fromRGB as rgb
 
@@ -11,7 +12,7 @@ import com.jlogical.spectrum.util.fromRGB as rgb
 data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
 
     init {
-        if(value < 0 || value > 10 || chroma > 40) throw IllegalArgumentException("Invalid arguments for MunsellColor")
+        if (value < 0 || value > 10 || chroma > 40) throw IllegalArgumentException("Invalid arguments for MunsellColor")
     }
 
     /**
@@ -48,8 +49,18 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
         }
     }
 
+    /**
+     * Extension method of JavaFX.Color which returns the difference between the colors based on their RGB values. Always a positive number.
+     */
+    private fun Color.diff(color: Color) : Double = abs(red - color.red) + abs(green - color.green) + abs(blue - color.blue)
+
+    /**
+     * Returns the distance from this munsell color to the one given.
+     */
+    fun distance(color: MunsellColor) : Double = this.color.diff(color.color)
+
     override fun toString(): String {
-        if(hue.isGrayscale)
+        if (hue.isGrayscale)
             return "N" + value.roundToInt()
 
         return hue.toString() + ", " + value.roundToInt() + ", " + chroma.roundToInt()

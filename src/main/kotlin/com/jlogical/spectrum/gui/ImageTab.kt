@@ -1,14 +1,22 @@
 package com.jlogical.spectrum.gui
 
 import com.jlogical.spectrum.model.MunsellColor
+import com.jlogical.spectrum.model.Palette
+import javafx.beans.property.SimpleObjectProperty
 import javafx.geometry.Pos
+import javafx.scene.control.Alert
 import javafx.scene.image.Image
+import javafx.scene.image.WritableImage
 import javafx.scene.input.MouseEvent
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.VBox
 import javafx.stage.FileChooser
+import javafx.stage.Popup
 import tornadofx.*
+import java.lang.NullPointerException
+import tornadofx.getValue
+import tornadofx.setValue
 
 /**
  * Manipulates an image with MunsellColors.
@@ -16,9 +24,10 @@ import tornadofx.*
 class ImageTab : BorderPane() {
 
     /**
-     * Holds the currently loaded image.
+     * Stores the image used for posterizing and analyzing.
      */
-    private var image: Image? = null
+    val imageProperty = SimpleObjectProperty<Image>()
+    var image by imageProperty
 
     /**
      * Holds the buttons that shift between visible and invisible depending on the image.
@@ -42,7 +51,7 @@ class ImageTab : BorderPane() {
 
                 button("Posterize") {
                     action {
-                        println("Do something!")
+                        posterizeImage()
                     }
                 }
                 button("Clear Image") {
@@ -58,6 +67,28 @@ class ImageTab : BorderPane() {
     }
 
     /**
+     * Posterizes the current image with the colors in the Palette.
+     */
+    private fun posterizeImage() {
+
+        // Make sure there are colors in the Palette.
+        if (Palette.colors.isEmpty()) {
+            Alert(Alert.AlertType.WARNING, "No color's specified in Palette. Right click on a color to add it to the palette.").showAndWait()
+            return
+        }
+
+        val safeImage = image ?: throw NullPointerException("No image has been loaded")
+        val writableImage = WritableImage(safeImage.pixelReader, safeImage.width.toInt(), safeImage.height.toInt())
+        for (x in 0 until safeImage.width.toInt()) {
+            for (y in 0 until safeImage.height.toInt()) {
+                writableImage.pixelWriter.setColor(x, y, Palette.closestColor(MunsellColor.fromRGB(safeImage.pixelReader.getColor(x, y)))?.color)
+            }
+        }
+
+        image = writableImage
+    }
+
+    /**
      * Opens an image and displays it.
      */
     private fun openImage(){
@@ -68,7 +99,7 @@ class ImageTab : BorderPane() {
                 alignment = Pos.CENTER
 
                 this += PaletteBar()
-                imageview(image!!).apply {
+                imageview(imageProperty).apply {
                     setOnMousePressed {
                         showMunsellBlock(it)
                     }
