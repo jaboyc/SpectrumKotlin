@@ -13,7 +13,7 @@ object Palette{
     val colors = mutableListOf<MunsellColor>().observable()
 
     /**
-     * Adds the given MunsellColor to the palette.
+     * Adds the given munsell color to the palette.
      */
     fun addColor(color: MunsellColor){
         colors.add(0, color)
@@ -21,5 +21,19 @@ object Palette{
         // Ensure that there is a max of 8 colors.
         if(colors.size > 8)
             colors.removeAt(8)
+    }
+
+    /**
+     * Removes the given color from the palette.
+     */
+    fun removeColor(color: MunsellColor){
+        colors.remove(color)
+    }
+
+    /**
+     * Returns whether the Palette contains the given munsell color.
+     */
+    fun contains(color: MunsellColor) : Boolean{
+        return colors.contains(color)
     }
 }

@@ -63,7 +63,7 @@ class ImageTab : BorderPane() {
     private fun openImage(){
         val file = chooseFile("Open Image", arrayOf(FileChooser.ExtensionFilter("Images (*.png, *.jpg)", "*.png", "*.jpg")), FileChooserMode.Single, null)
         if (file.isNotEmpty()) {
-            image = Image(file[0].toURI().toString(), 450.0, 450.0, true, true)
+            image = Image(file[0].toURI().toString(), 450.0, 400.0, true, true)
             center = VBox(5.0).apply {
                 alignment = Pos.CENTER
 

@@ -1,8 +1,7 @@
 package com.jlogical.spectrum.gui
 
 import com.jlogical.spectrum.model.MunsellColor
-import com.jlogical.spectrum.util.highestChromaInHue
-import com.sun.org.apache.xpath.internal.operations.Bool
+import com.jlogical.spectrum.model.Palette
 import javafx.beans.binding.Bindings
 import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
@@ -15,7 +14,7 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
     init {
 
         // If text is null, set it to the color's string.
-        if(text == null) text = color.toString()
+        if (text == null) text = color.toString()
 
         minWidth = width
         minHeight = height
@@ -32,13 +31,30 @@ class MunsellColorBlock(val color: MunsellColor, width: Double = 110.0, height: 
         }
 
         contextmenu {
-            item("View Details"){
+            item("View Details") {
                 setOnAction {
                     DetailsTab.showColorDetails(color)
                 }
             }
-            item("Add to Palette")
-            item("Remove from Palette")
+
+            item("Add to Palette") {
+                visibleWhen{
+                    Bindings.createBooleanBinding({!Palette.colors.contains(color)}, arrayOf(Palette.colors))
+                }
+                setOnAction {
+                    Palette.addColor(color)
+                }
+            }
+
+            item("Remove from Palette") {
+                visibleWhen{
+                    Bindings.createBooleanBinding({Palette.colors.contains(color)}, arrayOf(Palette.colors))
+                }
+                setOnAction {
+                    Palette.removeColor(color)
+                }
+            }
+
             item("Add to Mixer")
             item("Set as Desired Color")
         }

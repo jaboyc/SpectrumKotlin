@@ -17,14 +17,22 @@ class PaletteBar : VBox(5.0) {
         alignment = Pos.CENTER
 
         label("Palette")
-        hbox {
-            minWidth = 320.0
-            maxWidth = 320.0
-            minHeight = 40.0
-            maxHeight = 40.0
+        hbox (5.0){
+            alignment = Pos.CENTER
+
+            minWidth = 355.0
+            maxWidth = 355.0
+            minHeight = 48.0
+            maxHeight = 48.0
 
             bindChildren(Palette.colors) {
-                MunsellColorBlock(it, 40.0, 40.0, 4.0, "")
+                MunsellColorBlock(it, 40.0, 40.0, 4.0, "").apply{
+                    // Listen to mouse events.
+                    setOnMousePressed {e->
+                        if (e.isPrimaryButtonDown && e.clickCount == 2)
+                            DetailsTab.showColorDetails(color)
+                    }
+                }
             }
 
             style {
