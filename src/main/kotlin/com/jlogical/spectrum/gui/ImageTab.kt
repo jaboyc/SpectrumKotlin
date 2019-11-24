@@ -26,8 +26,8 @@ class ImageTab : BorderPane() {
     /**
      * Stores the image used for posterizing and analyzing.
      */
-    val imageProperty = SimpleObjectProperty<Image>()
-    var image by imageProperty
+    private val imageProperty = SimpleObjectProperty<Image>()
+    private var image : Image? by imageProperty
 
     /**
      * Holds the buttons that shift between visible and invisible depending on the image.
