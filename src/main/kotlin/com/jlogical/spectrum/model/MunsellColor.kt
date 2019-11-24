@@ -59,6 +59,14 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
      */
     fun distance(color: MunsellColor) : Double = this.color.diff(color.color)
 
+    /**
+     * Returns the complementary color of this color, which is the color on the other side of the Munsell Spectrum.
+     */
+    fun complementaryColor() : MunsellColor{
+        val newHue = Hue((hue.value + 50) % 100)
+        return MunsellColor(newHue, value, chroma)
+    }
+
     override fun toString(): String {
         if (hue.isGrayscale)
             return "N" + value.roundToInt()

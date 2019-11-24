@@ -3,12 +3,15 @@ package com.jlogical.spectrum.gui
 import com.jlogical.spectrum.app.MainView
 import com.jlogical.spectrum.model.Hue
 import com.jlogical.spectrum.model.MunsellColor
+import com.jlogical.spectrum.util.highestChromaInHue
+import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Pos
 import javafx.scene.control.Label
 import javafx.scene.control.TabPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.BorderStrokeStyle
+import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
 import tornadofx.*
@@ -24,10 +27,10 @@ class DetailsTab : BorderPane() {
             tabClosingPolicy = TabPane.TabClosingPolicy.UNAVAILABLE
 
             tab("Complementary Color") {
-
+                this += complementaryTab()
             }
             tab("Analogous Color") {
-
+                this += analogousTab()
             }
         }
     }
@@ -37,6 +40,8 @@ class DetailsTab : BorderPane() {
         val hueValue = SimpleStringProperty("")
         val valueValue = SimpleStringProperty("")
         val chromaValue = SimpleStringProperty("")
+
+        val colorValue = SimpleObjectProperty<MunsellColor?>()
         var detailsPane: BorderPane? = null
 
         /**
@@ -60,6 +65,7 @@ class DetailsTab : BorderPane() {
                 val hue = Hue(huePrefix.value, hueValue.value.toDouble())
                 val value = valueValue.value.toDouble()
                 val chroma = chromaValue.value.toDouble()
+                colorValue.value = MunsellColor(hue, value, chroma)
                 MunsellColorBlock(MunsellColor(hue, value, chroma))
             } catch (e: Exception) {
                 Label("Make sure hueValue, value, and chroma are all valid numbers.").apply {
@@ -69,6 +75,29 @@ class DetailsTab : BorderPane() {
                 }
             }
         }
+    }
+
+    /**
+     * Returns the complementary tab.
+     */
+    private fun complementaryTab(): Pane {
+        return BorderPane().apply {
+            colorValue.onChange {
+                center = if (it == null) HBox() else MunsellColorBlock(it.complementaryColor()).apply {
+                    setOnMouseClicked {e ->
+                        if (e.clickCount == 2)
+                            DetailsTab.showColorDetails(color)
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the analogous tab.
+     */
+    private fun analogousTab(): Pane {
+        return BorderPane()
     }
 
     /**
@@ -134,6 +163,7 @@ class DetailsTab : BorderPane() {
                         hueValue.value = ""
                         valueValue.value = ""
                         chromaValue.value = ""
+                        colorValue.value = null
                         center = placeHolder()
                     }
                 }
