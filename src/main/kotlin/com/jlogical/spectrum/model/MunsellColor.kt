@@ -67,6 +67,15 @@ data class MunsellColor(val hue: Hue, val value: Double, val chroma: Double) {
         return MunsellColor(newHue, value, chroma)
     }
 
+    /**
+     * Returns a list of analogous colors.
+     */
+    fun analogousColors() : List<MunsellColor>{
+        return (1 until 10).map{
+            MunsellColor(Hue(hue.prefix, (hue.hueValue + it) % 10), value, chroma)
+        }
+    }
+
     override fun toString(): String {
         if (hue.isGrayscale)
             return "N" + value.roundToInt()

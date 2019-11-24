@@ -3,7 +3,6 @@ package com.jlogical.spectrum.gui
 import com.jlogical.spectrum.app.MainView
 import com.jlogical.spectrum.model.Hue
 import com.jlogical.spectrum.model.MunsellColor
-import com.jlogical.spectrum.util.highestChromaInHue
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.property.SimpleStringProperty
 import javafx.geometry.Pos
@@ -15,6 +14,9 @@ import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.paint.Color
 import tornadofx.*
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 /**
  * The tab that stores the details of a color
@@ -84,7 +86,7 @@ class DetailsTab : BorderPane() {
         return BorderPane().apply {
             colorValue.onChange {
                 center = if (it == null) HBox() else MunsellColorBlock(it.complementaryColor()).apply {
-                    setOnMouseClicked {e ->
+                    setOnMouseClicked { e ->
                         if (e.clickCount == 2)
                             DetailsTab.showColorDetails(color)
                     }
@@ -97,7 +99,42 @@ class DetailsTab : BorderPane() {
      * Returns the analogous tab.
      */
     private fun analogousTab(): Pane {
-        return BorderPane()
+        return Pane().apply {
+            val pane = this
+            colorValue.onChange {
+
+                children.clear()
+
+                val color: MunsellColor = colorValue.value ?: return@onChange
+
+                // Properties of the analogous colors circle.
+                val radius = 190.0
+                var rot = PI / 2
+
+                // Add this color to the bottom of the circle.
+                this += MunsellColorBlock(color, 70.0, 70.0).apply {
+                    translateXProperty().bind(pane.widthProperty().divide(2).add(radius * cos(rot)))
+                    translateYProperty().bind(pane.heightProperty().divide(2).minus(25).add(radius * sin(rot)))
+
+                }
+
+                // Add all the analogous colors in a circle.
+                for (analogousColor in color.analogousColors()) {
+                    rot += 2 * PI / 10
+
+                    this += MunsellColorBlock(analogousColor, 70.0, 70.0).apply {
+                        translateXProperty().bind(pane.widthProperty().divide(2).add(radius * cos(rot)))
+                        translateYProperty().bind(pane.heightProperty().divide(2).minus(25).add( radius * sin(rot)))
+
+                        setOnMouseClicked { e ->
+                            if (e.clickCount == 2)
+                                DetailsTab.showColorDetails(analogousColor)
+                        }
+                    }
+                }
+
+            }
+        }
     }
 
     /**
